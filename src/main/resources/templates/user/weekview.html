@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+
+<title>Time Sheet - week view</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/header :: header">&nbsp;</div>
+
+	<div class="container">
+		<a th:href="@{/weekview(action=previous)}" class="previous round">&#8249;</a>
+		<span th:text="${date}">Testing</span> <a
+			th:href="@{/weekview(action=next)}" class="next round">&#8250;</a>
+		<div class="row col-md-7 table-responsive">
+
+			<table id="TimeSheetWeekView" class="table table-hover">
+				<thead>
+					<tr>
+						<th><span>Project</span></th>
+						<th><span th:text="${mon}">Mon</span></th>
+						<th><span th:text="${tus}">Tus</span></th>
+						<th><span th:text="${wed}">Wed</span></th>
+						<th><span th:text="${thu}">Thu</span></th>
+						<th><span th:text="${fri}">Mon</span></th>
+						<th><span th:text="${sat}">Mon</span></th>
+						<th><span th:text="${sun}">Mon</span></th>
+						<th><span>Total</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${weekviews.empty}">
+						<td colspan="2">No data Available</td>
+					</tr>
+					<tr th:each="weekview, rowStat: ${weekviews}"
+						th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+						<td><span th:text="${weekview.project.name}"> Project
+						</span></td>
+						<td><span th:text="${weekview.mon}"> Mon </span></td>
+						<td><span th:text="${weekview.tus}"> Tus </span></td>
+						<td><span th:text="${weekview.wed}"> Wed </span></td>
+						<td><span th:text="${weekview.thu}"> Thu </span></td>
+						<td><span th:text="${weekview.fri}"> Fri </span></td>
+						<td><span th:text="${weekview.sat}"> Sat </span></td>
+						<td><span th:text="${weekview.sun}"> Sun </span></td>
+						<td><span th:text="${weekview.total}"> Total </span></td>
+					</tr>
+				</tbody>
+			</table>
+			<input type="submit" id="submitButton" th:value="Save"> <input
+				type="reset" id="resetButton" name="reset" th:value="Reset" />
+
+		</div>
+	</div>
+</body>
+</html>
