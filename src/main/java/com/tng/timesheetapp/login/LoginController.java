@@ -45,27 +45,11 @@ public class LoginController {
 
 	}
 
-<<<<<<< HEAD
 	@RequestMapping("/")
 	public String home(Principal principal, Model model) {
 
 		return "redirect:/home";
 
 	}
-=======
-//
-//	@RequestMapping("/")
-//	public String home(Principal principal, Model model) {
-//
-//		//UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-//	
-//		//userDetails.
-//		
-//		//Employee employee = ((UserPrincipal) userDetails).getUser();
-//
-//		return "forward:/admin/projects";
-//
-//	}
->>>>>>> refs/remotes/origin/master
 
 }

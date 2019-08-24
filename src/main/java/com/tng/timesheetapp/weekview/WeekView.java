@@ -3,7 +3,6 @@ package com.tng.timesheetapp.weekview;
 import java.time.LocalDate;
 
 import com.tng.timesheetapp.employeeproject.EmployeeProject;
-<<<<<<< HEAD
 import com.tng.timesheetapp.task.Task;
 
 public class WeekView {
@@ -75,65 +74,7 @@ public class WeekView {
 
 	public void setEmployeeProject(EmployeeProject employeeProject) {
 		this.employeeProject = employeeProject;
-=======
 
-public class WeekView {
-
-	private int mon;
-	private int tus;
-	private int wed;
-	private int thu;
-	private int fri;
-	private int sat;
-	private int sun;
-
-	private EmployeeProject employeeProject;
-
-	// private Project project;
-	private int total;
-	private LocalDate date;
-
-	public WeekView() {
-		this.mon = 0;
-		this.tus = 0;
-		this.wed = 0;
-		this.thu = 0;
-		this.fri = 0;
-		this.sat = 0;
-		this.sun = 0;
-		this.total = 0;
-	}
-
-	public WeekView(int mon, int tus, int wed, int thu, int fri, int sat, int sun, EmployeeProject employeeProject,
-			LocalDate date) {
-		super();
-		this.mon = mon;
-		this.tus = tus;
-		this.wed = wed;
-		this.thu = thu;
-		this.fri = fri;
-		this.sat = sat;
-		this.sun = sun;
-		this.employeeProject = employeeProject;
-		this.date = date;
-		this.total = this.sun + this.mon + this.tus + this.wed + this.thu + this.fri + this.sat;
-	}
-
-	public EmployeeProject getEmployeeProject() {
-		return employeeProject;
-	}
-
-	public void setEmployeeProject(EmployeeProject employeeProject) {
-		this.employeeProject = employeeProject;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
->>>>>>> refs/remotes/origin/master
 	}
 
 	public int getSun() {
