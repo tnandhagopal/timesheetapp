@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.tng.timesheetapp.employeerole.EmployeeRoleService;
 import com.tng.timesheetapp.login.UserPrincipal;
 import com.tng.timesheetapp.role.RoleRepository;
@@ -90,4 +91,42 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	}
 
+=======
+import com.tng.timesheetapp.login.UserPrincipal;
+
+@Service
+public class MyUserDetailsService implements UserDetailsService {
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Employee user = userRepository.findByUserName(username);
+		if (user == null) {
+			System.out.println("user nul exception!!");
+			throw new UsernameNotFoundException("User 404");
+		}
+
+		//System.out.println("user : " + user.getUserName());
+		//System.out.println("user : " + (new BCryptPasswordEncoder(10). user.getPassword());
+		return new UserPrincipal(user);
+	}
+
+	public List<Employee> getAllEmployee() {
+		return userRepository.findAll();
+	}
+
+	public boolean save(Employee employee) {
+
+		if (userRepository.findByUserName(employee.getUserName()) == null) {
+			employee.setStatus("NEW");
+			employee.setPassword(new BCryptPasswordEncoder(10).encode(employee.getPassword()));
+			userRepository.save(employee);
+			return true;
+		}
+
+		return false;
+	}
+>>>>>>> refs/remotes/origin/master
 }

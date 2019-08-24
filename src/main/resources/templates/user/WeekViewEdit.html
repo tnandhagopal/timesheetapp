@@ -30,9 +30,9 @@
 </head>
 
 <body>
-	<div th:replace="fragments/header :: header">&nbsp;</div>
+	<div th:replace="/fragments/header :: header">&nbsp;</div>
 
-	<div class="container ">
+	<div class="container">
 		<div class="row">
 			<div class="header">
 				<h3>Week view edit</h3>
@@ -52,8 +52,7 @@
 
 					<ul class="navbar-nav px-3">
 						<li class="nav-item text-nowrap"><a class="nav-link"
-							th:href="@{/weekview/edit}"
-							th:text="${weekViewModel.currentWeek}">Current week</a></li>
+							th:href="@{/weekview/edit}" th:text="${weekViewModel.currentWeek}">Current week</a></li>
 					</ul>
 
 					<ul class="navbar-nav px-3">
@@ -62,11 +61,11 @@
 					</ul>
 				</div>
 			</nav>
-
+		
 		</div>
 
 		<div class="row">
-			<div class="col-md-10 col-sm-6 table-responsive">
+			<div class="col-md-10 table-responsive">
 				<form action="#" th:action="@{/weekview/save}" th:object="${form}"
 					method="post">
 					<fieldset>
@@ -76,7 +75,6 @@
 							<thead class="thead-dark">
 								<tr>
 									<th><span>Project</span></th>
-									<th><span>Task</span></th>
 									<th><span
 										th:text="${weekViewModel.weekViewTableCols.mon.head}">Mon</span></th>
 									<th><span
@@ -93,7 +91,6 @@
 										th:text="${weekViewModel.weekViewTableCols.sun.head}">Sun</span></th>
 									<th><span>Total</span></th>
 									<th><span></span></th>
-									<th><span></span></th>
 								</tr>
 							</thead>
 
@@ -105,7 +102,6 @@
 									<td><span
 										th:text="${weekview.employeeProject.project.name}">
 											Project</span></td>
-									<td><span th:text="${weekview.task.name}"> Task</span></td>
 
 									<td><input class="col-lg"
 										th:placeholder="Mon + ' ' + ${itemStat.count}"
@@ -141,9 +137,6 @@
 									<td><input hidden="id"
 										th:name="|weekviews[${itemStat.index}].employeeProject.id|"
 										th:value="${weekview.employeeProject.id}" /></td>
-									<td><input hidden="id"
-										th:name="|weekviews[${itemStat.index}].task.id|"
-										th:value="${weekview.task.id}" /></td>
 
 								</tr>
 							</tbody>
@@ -151,7 +144,6 @@
 							<tfoot class="thead-light">
 								<tr>
 									<th><span>Total</span></th>
-									<th></th>
 									<th><span
 										th:text="${weekViewModel.weekViewTableCols.mon.foot}">Mon</span></th>
 									<th><span
@@ -168,7 +160,6 @@
 										th:text="${weekViewModel.weekViewTableCols.sun.foot}">Sun</span></th>
 									<th><span
 										th:text="${weekViewModel.weekViewTableCols.total.foot}">0</span></th>
-									<th><span></span></th>
 									<th><span></span></th>
 								</tr>
 							</tfoot>
