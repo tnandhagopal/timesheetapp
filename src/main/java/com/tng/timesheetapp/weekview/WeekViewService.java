@@ -18,7 +18,6 @@ import com.tng.timesheetapp.employeeproject.EmployeeProjectService;
 import com.tng.timesheetapp.employeetimesheet.EmployeeTimeSheet;
 import com.tng.timesheetapp.employeetimesheet.EmployeeTimeSheetService;
 import com.tng.timesheetapp.task.Task;
-import com.tng.timesheetapp.task.TaskRepository;
 import com.tng.timesheetapp.task.TaskService;
 
 @Service

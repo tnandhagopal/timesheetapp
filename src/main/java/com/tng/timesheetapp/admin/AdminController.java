@@ -1,36 +1,19 @@
 package com.tng.timesheetapp.admin;
 
-import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.tng.timesheetapp.employee.Employee;
-import com.tng.timesheetapp.employee.MyUserDetailsService;
-import com.tng.timesheetapp.login.UserPrincipal;
-import com.tng.timesheetapp.project.Project;
-import com.tng.timesheetapp.project.ProjectService;
 
 @Controller
 @PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
 
-	@Autowired
-	private ProjectService projectService;
-
-	@Autowired
-	private MyUserDetailsService employeeService;
+//	@Autowired
+//	private ProjectService projectService;
+//
+//	@Autowired
+//	private MyUserDetailsService employeeService;
 
 //	@GetMapping("/projects")
 //	public String getProjects(Principal principal, Model model) {
