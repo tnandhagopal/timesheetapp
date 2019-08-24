@@ -1,6 +1,7 @@
 package com.tng.timesheetapp.employeeproject;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ import com.tng.timesheetapp.employee.Employee;
 import com.tng.timesheetapp.project.Project;
 
 @Entity
-@Table(name = "Employee_Project")
+@Table(name = "employee_project")
 public class EmployeeProject {
 
 	@Id
@@ -25,11 +26,11 @@ public class EmployeeProject {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "ep_emp_id", referencedColumnName="emp_id")
+	@JoinColumn(name = "ep_emp_id", referencedColumnName = "emp_id")
 	private Employee employee;
 
 	@ManyToOne
-	@JoinColumn(name = "ep_pro_id" , referencedColumnName="pro_id")
+	@JoinColumn(name = "ep_pro_id", referencedColumnName = "pro_id")
 	private Project project;
 
 	@Basic
@@ -42,7 +43,7 @@ public class EmployeeProject {
 
 	@Basic
 	@Column(name = "ep_created_date")
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@Basic
 	@Column(name = "ep_created_by")
@@ -50,7 +51,7 @@ public class EmployeeProject {
 
 	@Basic
 	@Column(name = "ep_updated_date")
-	private LocalDate updatedDate;
+	private LocalDateTime updatedDate;
 
 	@Basic
 	@Column(name = "ep_updated_by")
@@ -96,11 +97,11 @@ public class EmployeeProject {
 		this.project = project;
 	}
 
-	public LocalDate getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -112,11 +113,11 @@ public class EmployeeProject {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDate getUpdatedDate() {
+	public LocalDateTime getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(LocalDate updatedDate) {
+	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

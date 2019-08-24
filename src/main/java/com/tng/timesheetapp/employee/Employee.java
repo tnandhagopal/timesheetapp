@@ -1,6 +1,7 @@
 package com.tng.timesheetapp.employee;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -22,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.tng.timesheetapp.role.Role;
 
 @Entity
-@Table(name = "Employee")
+@Table(name = "employee")
 public class Employee {
 
 	@Id
@@ -65,7 +66,7 @@ public class Employee {
 
 	@Basic
 	@Column(name = "emp_created_date")
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@Basic
 	@Column(name = "emp_created_by")
@@ -73,7 +74,7 @@ public class Employee {
 
 	@Basic
 	@Column(name = "emp_updated_date")
-	private LocalDate updatedDate;
+	private LocalDateTime updatedDate;
 
 	@Basic
 	@Column(name = "emp_updated_by")
@@ -84,9 +85,9 @@ public class Employee {
 	private boolean isEnabled;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "employee_role",foreignKey = @ForeignKey(name = "er_uk"), joinColumns = @JoinColumn(name = "er_emp_id"), inverseJoinColumns = @JoinColumn(name = "er_role_id"))
+	@JoinTable(name = "employee_role", foreignKey = @ForeignKey(name = "er_uk"), joinColumns = @JoinColumn(name = "er_emp_id"), inverseJoinColumns = @JoinColumn(name = "er_role_id"))
 	private Set<Role> roles;
-	
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -181,11 +182,11 @@ public class Employee {
 		this.dob = dob;
 	}
 
-	public LocalDate getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -197,11 +198,11 @@ public class Employee {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDate getUpdatedDate() {
+	public LocalDateTime getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(LocalDate updatedDate) {
+	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

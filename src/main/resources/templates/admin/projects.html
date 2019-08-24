@@ -61,6 +61,7 @@
 									<th><span>Created on</span></th>
 									<th><span>Last updated by</span></th>
 									<th><span>Last updated date</span></th>
+									<th><span>Edit Project</span></th>
 								</tr>
 							</thead>
 							<tbody id="myTable">
@@ -79,6 +80,9 @@
 											updated by</span></td>
 									<td><span th:text="${project.updatedDate}">Last
 											updated date</span></td>
+
+									<td><a
+										th:href="@{'/admin/project/edit?id=' + ${project.id}}">edit</a></td>
 
 								</tr>
 							</tbody>

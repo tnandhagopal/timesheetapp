@@ -3,8 +3,6 @@ package com.tng.timesheetapp.project;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 public class ProjectDTO {
 
 	private List<Project> projects;

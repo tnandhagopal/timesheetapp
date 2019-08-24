@@ -3,6 +3,7 @@ package com.tng.timesheetapp.weekview;
 import java.time.LocalDate;
 
 import com.tng.timesheetapp.employeeproject.EmployeeProject;
+import com.tng.timesheetapp.task.Task;
 
 public class WeekView {
 
@@ -16,9 +17,11 @@ public class WeekView {
 
 	private EmployeeProject employeeProject;
 
+	private Task task;
+
 	// private Project project;
 	private int total;
-	private LocalDate date;
+	private LocalDate firstOfCurrentWeek;
 
 	public WeekView() {
 		this.mon = 0;
@@ -29,10 +32,13 @@ public class WeekView {
 		this.sat = 0;
 		this.sun = 0;
 		this.total = 0;
+		this.employeeProject = new EmployeeProject();
+		this.firstOfCurrentWeek = LocalDate.now();
+		this.task = new Task();
 	}
 
 	public WeekView(int mon, int tus, int wed, int thu, int fri, int sat, int sun, EmployeeProject employeeProject,
-			LocalDate date) {
+			Task task, LocalDate firstOfCurrentWeek) {
 		super();
 		this.mon = mon;
 		this.tus = tus;
@@ -42,8 +48,24 @@ public class WeekView {
 		this.sat = sat;
 		this.sun = sun;
 		this.employeeProject = employeeProject;
-		this.date = date;
+		this.firstOfCurrentWeek = firstOfCurrentWeek;
 		this.total = this.sun + this.mon + this.tus + this.wed + this.thu + this.fri + this.sat;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+
+	public LocalDate getFirstOfCurrentWeek() {
+		return firstOfCurrentWeek;
+	}
+
+	public void setFirstOfCurrentWeek(LocalDate firstOfCurrentWeek) {
+		this.firstOfCurrentWeek = firstOfCurrentWeek;
 	}
 
 	public EmployeeProject getEmployeeProject() {
@@ -52,14 +74,6 @@ public class WeekView {
 
 	public void setEmployeeProject(EmployeeProject employeeProject) {
 		this.employeeProject = employeeProject;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
 	}
 
 	public int getSun() {

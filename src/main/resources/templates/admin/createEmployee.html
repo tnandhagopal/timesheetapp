@@ -50,36 +50,39 @@
 						<div class="col-2"></div>
 						<div class="col-10">
 							<form th:action="@{/admin/employee/create}"
-								th:object="${employee}" method="post"
+								th:object="${employeeDetails}" method="post"
 								class="needs-validation" novalidate>
 
 								<div class="form-group">
 									<label for="userName">User Name:</label> <input type="text"
-										th:field="*{userName}" class="form-control" id="userName"
-										placeholder="Enter User Name" name="userName" required>
+										th:field="*{employee.userName}" class="form-control"
+										id="userName" placeholder="Enter User Name" name="userName"
+										required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
 								</div>
 
 								<div class="form-group">
 									<label for="firstName">First Name:</label> <input type="text"
-										th:field="*{firstName}" class="form-control" id="firstName"
-										placeholder="Enter First Name" name="firstName" required>
+										th:field="*{employee.firstName}" class="form-control"
+										id="firstName" placeholder="Enter First Name" name="firstName"
+										required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
 								</div>
 
 								<div class="form-group">
 									<label for="secondName">Second Name:</label> <input type="text"
-										th:field="*{secondName}" class="form-control" id="secondName"
-										placeholder="Enter Second Name" name="secondName" required>
+										th:field="*{employee.secondName}" class="form-control"
+										id="secondName" placeholder="Enter Second Name"
+										name="secondName" required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
 								</div>
 
 								<div class="form-group">
 									<label for="mailId">Mail Id:</label> <input type="text"
-										th:field="*{mailId}" class="form-control" id="mailId"
+										th:field="*{employee.mailId}" class="form-control" id="mailId"
 										placeholder="Enter Mail Id" name="mailId" required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
@@ -87,27 +90,43 @@
 
 								<div class="form-group">
 									<label for="password">Password:</label> <input type="text"
-										th:field="*{password}" class="form-control" id="password"
-										placeholder="Enter Password" name="password" required>
+										th:field="*{employee.password}" class="form-control"
+										id="password" placeholder="Enter Password" name="password"
+										required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
 								</div>
 
 								<div class="form-group">
 									<label for="contactNo">Contact Number:</label> <input
-										type="text" th:field="*{contactNo}" class="form-control"
-										id="contactNo" placeholder="Enter Contact Number"
-										name="contactNo" required>
+										type="text" th:field="*{employee.contactNo}"
+										class="form-control" id="contactNo"
+										placeholder="Enter Contact Number" name="contactNo" required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
 								</div>
 
 								<div class="form-group">
 									<label for="dob">Contact Number:</label> <input type="date"
-										th:field="*{dob}" class="form-control" id="dob"
+										th:field="*{employee.dob}" class="form-control" id="dob"
 										placeholder="Enter Date of Birth" name="dob" required>
 									<div class="valid-feedback">Valid.</div>
 									<div class="invalid-feedback">Please fill out this field.</div>
+								</div>
+
+								<div class="form-group">
+									<label for="dob">Roles:</label> <select
+										id="multiSelectElementsSelected"
+										name="multiSelectElementsSelected" multiple="multiple"
+										th:field="*{roles}" required>
+
+										<option th:each="role,row : *{roles}" th:value="${role.id}"
+											th:text="${role.name}"></option>
+										<div class="valid-feedback">Valid.</div>
+										<div class="invalid-feedback">Please fill out this
+											field.</div>
+									</select>
+
 								</div>
 
 								<button type="submit" class="btn btn-primary">Submit</button>
@@ -145,8 +164,6 @@
 								});
 					}, false);
 		})();
-		
-	
 	</script>
 </body>
 </html>

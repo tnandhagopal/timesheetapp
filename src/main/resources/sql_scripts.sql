@@ -1,5 +1,5 @@
 drop database timesheet;
-
+ 
 create database timesheet;
 
 use timesheet;
@@ -19,9 +19,9 @@ create table employee
 	emp_dob date,
 	emp_is_enabled boolean,
 	emp_created_by varchar(10),
-	emp_created_date date,
+	emp_created_date datetime,
 	emp_updated_by varchar(10),
-	emp_updated_date date,
+	emp_updated_date datetime,
 	constraint employee_pk primary key (emp_id),
 	constraint employee_uk unique (emp_user_name)
 );
@@ -41,9 +41,9 @@ create table project(
 	pro_code varchar(10) not null,
 	pro_name varchar(50)  not null,
 	pro_created_by varchar(10),
-	pro_created_date date,
+	pro_created_date datetime,
 	pro_updated_by varchar(10),
-	pro_updated_date date,
+	pro_updated_date datetime,
 	constraint project_pk primary key (pro_id),
 	constraint project_uk unique (pro_code)
 );
@@ -61,6 +61,7 @@ insert into project(pro_code, pro_name, pro_created_by, pro_created_date) values
 insert into project(pro_code, pro_name, pro_created_by, pro_created_date) values('RTS1001', 'Perl Testing', 'ADMIN', CURRENT_TIMESTAMP( ));
 
 
+
 #drop table employee_project;
 
 create table employee_project(
@@ -70,9 +71,9 @@ create table employee_project(
 	ep_start_date date not null,
 	ep_end_date date not null,
 	ep_created_by varchar(10),
-	ep_created_date date,
+	ep_created_date datetime,
 	ep_updated_by varchar(10),
-	ep_updated_date date,
+	ep_updated_date datetime,
 	constraint ep_pk primary key (ep_id),
 	constraint ep_uk unique (ep_emp_id, ep_pro_id),
 	constraint ep_emp_fk foreign key (ep_emp_id) references employee(emp_id),
@@ -92,24 +93,50 @@ insert into employee_project(ep_emp_id, ep_pro_id, ep_start_date, ep_end_date, e
 insert into employee_project(ep_emp_id, ep_pro_id, ep_start_date, ep_end_date, ep_created_by, ep_created_date) values((select emp_id from employee where emp_user_name='51314543'), (select pro_id from project where pro_code = 'SQW1001' ),DATE('2018-06-21'), DATE('2020-06-21'),  'ADMIN', CURRENT_TIMESTAMP());
 
 
-#drop table employee_time_sheet;
+create table task(
+	task_id bigint(20) not null auto_increment,
+	task_name varchar(50)  not null,
+	task_created_by varchar(10),
+	task_created_date datetime,
+	task_updated_by varchar(10),
+	task_updated_date datetime,
+	constraint task_pk primary key (task_id),
+	constraint task_uk unique (task_name)
+);
+
+insert into task( task_name, task_created_by, task_created_date) values( 'Development', 'ADMIN', CURRENT_TIMESTAMP( ));
+
+insert into task( task_name, task_created_by, task_created_date) values( 'Testing', 'ADMIN', CURRENT_TIMESTAMP( ));
+
+insert into task( task_name, task_created_by, task_created_date) values( 'Support', 'ADMIN', CURRENT_TIMESTAMP( ));
+
+insert into task( task_name, task_created_by, task_created_date) values('Training', 'ADMIN', CURRENT_TIMESTAMP( ));
+
+
+drop table employee_time_sheet;
 
 create table employee_time_sheet(
 	ets_id bigint(20) not null auto_increment,
 	ets_ep_id bigint(20) not null,
+	ets_task_id bigint(20) not null,
 	ets_date date not null,
 	ets_time int,
 	ets_created_by varchar(10),
-	ets_created_date date,
+	ets_created_date datetime,
 	ets_updated_by varchar(10),
-	ets_updated_date date,
+	ets_updated_date datetime,
 	constraint ets_pk primary key (ets_id),
-	constraint ets_uk unique (ets_ep_id, ets_date),
-	constraint ets_ep_fk foreign key (ets_ep_id) references employee_project(ep_id)	
+	constraint ets_uk unique (ets_ep_id, ets_task_id, ets_date ),
+	constraint ets_ep_fk foreign key (ets_ep_id) references employee_project(ep_id),
+	constraint ets_task_fk foreign key (ets_task_id) references task(task_id)	
+
 );
 
 
-insert into employee_time_sheet(ets_ep_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), DATE('2019-05-01'),8, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'),CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
+
+
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'),CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
 #drop table employee_leave;
@@ -120,9 +147,9 @@ create table employee_leave(
 	el_date date not null,
 	el_status varchar(10),
 	el_created_by varchar(10),
-	el_created_date date,
+	el_created_date datetime,
 	el_updated_by varchar(10),
-	el_updated_date date,
+	el_updated_date datetime,
 	constraint el_pk primary key (el_id),
 	constraint el_uk unique (el_emp_id, el_date),
 	constraint el_emp_fk foreign key (el_emp_id) references employee(emp_id)
@@ -134,9 +161,9 @@ create table role(
 	role_id bigint(20) not null auto_increment,
 	role_name varchar(10),
 	role_created_by varchar(10),
-	role_created_date date,
+	role_created_date datetime,
 	role_updated_by varchar(10),
-	role_updated_date date,
+	role_updated_date datetime,
 	constraint role_pk primary key (role_id),
 	constraint role_uk unique (role_name)
 );
@@ -152,9 +179,9 @@ create table employee_role(
 	er_emp_id bigint(20) not null,
 	er_role_id bigint(20) not null,
 	er_created_by varchar(10),
-	er_created_date date,
+	er_created_date datetime,
 	er_updated_by varchar(10),
-	er_updated_date date,
+	er_updated_date datetime,
 	constraint er_pk primary key (er_id),
 	constraint er_uk unique (er_emp_id, er_role_id),
 	constraint er_emp_fk foreign key (er_emp_id) references employee(emp_id),
@@ -166,6 +193,10 @@ insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date
 insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date) values((select emp_id from employee where emp_user_name='51314542'), (select role_id from role where role_name='ADMIN'),'ADMIN',CURRENT_TIMESTAMP());
 
 insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date) values((select emp_id from employee where emp_user_name='51314543'), (select role_id from role where role_name='USER'),'ADMIN',CURRENT_TIMESTAMP());
+
+
+#drop table task;
+
 
 
 #spring.datasource.url = jdbc:mysql://aagpv7jjakutzi.co4sfgsv7sfr.us-east-2.rds.amazonaws.com:3306/timesheet?useSSL=false&serverTimezone=Asia/Singapore

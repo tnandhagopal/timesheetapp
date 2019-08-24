@@ -1,6 +1,6 @@
 package com.tng.timesheetapp.role;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Role")
+@Table(name = "role")
 public class Role {
 
 	@Id
@@ -25,7 +25,7 @@ public class Role {
 
 	@Basic
 	@Column(name = "role_created_date")
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@Basic
 	@Column(name = "role_created_by")
@@ -33,7 +33,7 @@ public class Role {
 
 	@Basic
 	@Column(name = "role_updated_date")
-	private LocalDate updatedDate;
+	private LocalDateTime updatedDate;
 
 	@Basic
 	@Column(name = "role_updated_by")
@@ -55,11 +55,11 @@ public class Role {
 		this.name = name;
 	}
 
-	public LocalDate getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -71,11 +71,11 @@ public class Role {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDate getUpdatedDate() {
+	public LocalDateTime getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(LocalDate updatedDate) {
+	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

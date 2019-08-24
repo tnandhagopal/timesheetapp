@@ -14,9 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.tng.timesheetapp.employeeproject.EmployeeProject;
+import com.tng.timesheetapp.task.Task;
 
 @Entity
-@Table(name = "Employee_Time_Sheet")
+@Table(name = "employee_time_sheet")
 public class EmployeeTimeSheet {
 
 	@Id
@@ -31,6 +32,10 @@ public class EmployeeTimeSheet {
 	@ManyToOne
 	@JoinColumn(name = "ets_ep_id", referencedColumnName = "ep_id")
 	private EmployeeProject employeeProject;
+
+	@ManyToOne
+	@JoinColumn(name = "ets_task_id", referencedColumnName = "task_id")
+	private Task task;
 
 	@Basic
 	@Column(name = "ets_time")
@@ -56,10 +61,11 @@ public class EmployeeTimeSheet {
 
 	}
 
-	public EmployeeTimeSheet(EmployeeProject employeeProject, LocalDate date, int time) {
+	public EmployeeTimeSheet(EmployeeProject employeeProject, Task task, LocalDate date, int time) {
 		super();
 		this.date = date;
 		this.employeeProject = employeeProject;
+		this.task = task;
 		this.time = time;
 		this.createdDate = LocalDateTime.now();
 		this.createdBy = "ADMIN";
@@ -136,6 +142,14 @@ public class EmployeeTimeSheet {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 }

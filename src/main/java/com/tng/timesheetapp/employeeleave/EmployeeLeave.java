@@ -1,6 +1,7 @@
 package com.tng.timesheetapp.employeeleave;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 import com.tng.timesheetapp.employee.Employee;
 
 @Entity
-@Table(name = "Employee_Leave")
+@Table(name = "employee_leave")
 public class EmployeeLeave {
 
 	@Id
@@ -37,7 +38,7 @@ public class EmployeeLeave {
 
 	@Basic
 	@Column(name = "el_created_date")
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@Basic
 	@Column(name = "el_created_by")
@@ -45,14 +46,14 @@ public class EmployeeLeave {
 
 	@Basic
 	@Column(name = "el_updated_date")
-	private LocalDate updatedDate;
+	private LocalDateTime updatedDate;
 
 	@Basic
 	@Column(name = "el_updated_by")
 	private String updatedBy;
 
-	public EmployeeLeave(int id, LocalDate date, Employee employee, String status, LocalDate createdDate,
-			String createdBy, LocalDate updatedDate, String updatedBy) {
+	public EmployeeLeave(int id, LocalDate date, Employee employee, String status, LocalDateTime createdDate,
+			String createdBy, LocalDateTime updatedDate, String updatedBy) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -96,11 +97,11 @@ public class EmployeeLeave {
 		this.status = status;
 	}
 
-	public LocalDate getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -112,11 +113,11 @@ public class EmployeeLeave {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDate getUpdatedDate() {
+	public LocalDateTime getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(LocalDate updatedDate) {
+	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

@@ -2,6 +2,7 @@ package com.tng.timesheetapp.project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,23 @@ public class ProjectService {
 		return retList;
 	}
 
-	public boolean save(Project project) {
+	public boolean update(Project project) {
+
+		Optional<Project> projectForUpdate = proRepo.findById(project.getId());
+
+		projectForUpdate.ifPresent(p -> {
+			p.setName(project.getName());
+			p.setCode(project.getCode());
+			p.setUpdatedDate(project.getUpdatedDate());
+			p.setUpdatedBy(project.getUpdatedBy());
+			proRepo.save(p);
+		});
+
+		return true;
+
+	}
+
+	public boolean insert(Project project) {
 
 		if (proRepo.findByCode(project.getCode()) == null) {
 			proRepo.save(project);
@@ -30,6 +47,10 @@ public class ProjectService {
 			return false;
 		}
 
+	}
+
+	public Optional<Project> getById(int id) {
+		return proRepo.findById(id);
 	}
 
 }
