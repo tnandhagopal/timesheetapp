@@ -11,10 +11,21 @@ public class WeekViewModel {
 
 	private String currentWeek;
 
+	private Boolean isEditable;
+
 	public WeekViewModel() {
 		this.weekviewList = new ArrayList<WeekView>();
 		this.weekViewTableCols = new WeekViewTableCols();
 		this.currentWeek = new String();
+		this.isEditable = true;
+	}
+
+	public Boolean getIsEditable() {
+		return isEditable;
+	}
+
+	public void setIsEditable(Boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 
 	public String getCurrentWeek() {

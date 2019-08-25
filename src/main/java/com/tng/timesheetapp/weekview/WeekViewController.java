@@ -25,8 +25,60 @@ public class WeekViewController {
 	@Autowired
 	private WeekViewService weekViewService;
 
+	@PostMapping(value = "/save", params = "action=Save")
+	public String save(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
+		System.out.println("save called");
+		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+
+		Employee employee = ((UserPrincipal) userDetails).getUser();
+
+		weekViewService.save(employee, form);
+
+		return "redirect:/weekview/edit?action=same";
+
+	}
+
+	@PostMapping(value = "/save", params = "action=SubmitForApproval")
+	public String submitForApproval(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
+		System.out.println("submit called");
+
+		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+
+		Employee employee = ((UserPrincipal) userDetails).getUser();
+
+		weekViewService.save(employee, form);
+
+		return "redirect:/weekview/edit?action=same";
+
+	}
+
+	@GetMapping("/edit{action}")
+	public String edit(@RequestParam(value = "action", required = false) String action, Principal principal,
+			Model model) {
+
+		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+
+		Employee employee = ((UserPrincipal) userDetails).getUser();
+
+		WeekViewModel weekViewModel = weekViewService.getByEmployee(employee, action);
+
+		model.addAttribute("weekViewModel", weekViewModel);
+
+		model.addAttribute("username",
+				employee.getFirstName() + " " + employee.getSecondName() + " ( " + employee.getUserName() + " )");
+
+		model.addAttribute("form", new WeekViewDto(weekViewModel.getWeekviewList()));
+
+		if (weekViewModel.getIsEditable()) {
+			return "user/weekViewEdit";
+		} else {
+			return "user/weekView";
+		}
+
+	}
+
 	@GetMapping
-	public String getWeekView(@RequestParam(value = "action", required = false) String action, Principal principal,
+	public String get(@RequestParam(value = "action", required = false) String action, Principal principal,
 			Model model) {
 //
 //		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
@@ -55,39 +107,6 @@ public class WeekViewController {
 //				employee.getFirstName() + " " + employee.getSecondName() + " ( " + employee.getUserName() + " )");
 
 		return "redirect:/weekview/edit";
-
-	}
-
-	@PostMapping("/save")
-	public String saveWeekView(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-
-		Employee employee = ((UserPrincipal) userDetails).getUser();
-
-		weekViewService.save(employee, form);
-
-		return "redirect:/weekview/edit?action=same";
-
-	}
-
-	@GetMapping("/edit{action}")
-	public String edit(@RequestParam(value = "action", required = false) String action, Principal principal,
-			Model model) {
-
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
-
-		Employee employee = ((UserPrincipal) userDetails).getUser();
-
-		WeekViewModel weekViewModel = weekViewService.getByEmployee(employee, action);
-
-		model.addAttribute("weekViewModel", weekViewModel);
-
-		model.addAttribute("username",
-				employee.getFirstName() + " " + employee.getSecondName() + " ( " + employee.getUserName() + " )");
-
-		model.addAttribute("form", new WeekViewDto(weekViewModel.getWeekviewList()));
-
-		return "user/weekViewEdit";
 
 	}
 

@@ -121,6 +121,7 @@ create table employee_time_sheet(
 	ets_task_id bigint(20) not null,
 	ets_date date not null,
 	ets_time int,
+	ets_approved boolean,
 	ets_created_by varchar(10),
 	ets_created_date datetime,
 	ets_updated_by varchar(10),
@@ -128,15 +129,28 @@ create table employee_time_sheet(
 	constraint ets_pk primary key (ets_id),
 	constraint ets_uk unique (ets_ep_id, ets_task_id, ets_date ),
 	constraint ets_ep_fk foreign key (ets_ep_id) references employee_project(ep_id),
-	constraint ets_task_fk foreign key (ets_task_id) references task(task_id)	
+	cons		traint ets_task_fk foreign key (ets_task_id) references task(task_id)	
 
 );
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'),CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), CURRENT_TIMESTAMP(),8, false, 'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'),CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), CURRENT_TIMESTAMP(),8, false,'ADMIN', CURRENT_TIMESTAMP());
+
+
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-28'),8, false, 'ADMIN', CURRENT_TIMESTAMP());
+
+
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-27'),8, false,'ADMIN', CURRENT_TIMESTAMP());
+
+
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-15'),8, true, 'ADMIN', CURRENT_TIMESTAMP());
+
+
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-14'),8, true,'ADMIN', CURRENT_TIMESTAMP());
+
 
 
 #drop table employee_leave;
@@ -195,7 +209,41 @@ insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date
 insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date) values((select emp_id from employee where emp_user_name='51314543'), (select role_id from role where role_name='USER'),'ADMIN',CURRENT_TIMESTAMP());
 
 
-#drop table task;
+#drop table approval_status;
+
+create table approval_status(
+	as_id bigint(20) not null auto_increment,
+	as_name varchar(10),
+	as_created_by varchar(10),
+	as_created_date datetime,
+	as_updated_by varchar(10),
+	as_updated_date datetime,
+	constraint as_pk primary key (as_id),
+	constraint as_uk unique (as_name)
+);
+
+insert into approval_status (as_name, as_created_by, as_created_date) values('APPROVED','ADMIN',CURRENT_TIMESTAMP());
+
+insert into approval_status (as_name, as_created_by, as_created_date) values('REJECTED','ADMIN',CURRENT_TIMESTAMP());
+
+insert into approval_status (as_name, as_created_by, as_created_date) values('PENDING','ADMIN',CURRENT_TIMESTAMP());
+
+#drop table employee_time_sheet_approval;
+
+create table employee_time_sheet_approval(
+	etsa_id bigint(20) not null auto_increment,
+	etsa_emp_id bigint(20) not null,
+	etsa_as_id bigint(20) not null,
+	etsa_date date not null,
+	etsa_created_by varchar(10),
+	etsa_created_date datetime,
+	etsa_updated_by varchar(10),
+	etsa_updated_date datetime,
+	constraint etsa_pk primary key (etsa_id),
+	constraint etsa_uk unique (etsa_emp_id, etsa_date),
+	constraint etsa_emp_fk foreign key (etsa_emp_id) references employee(emp_id),
+	constraint etsa_as_fk foreign key (etsa_as_id) references approval_status(as_id)
+);
 
 #spring.datasource.url = jdbc:mysql://aagpv7jjakutzi.co4sfgsv7sfr.us-east-2.rds.amazonaws.com:3306/timesheet?useSSL=false&serverTimezone=Asia/Singapore
 #spring.datasource.username = root

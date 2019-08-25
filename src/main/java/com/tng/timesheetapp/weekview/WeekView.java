@@ -14,13 +14,12 @@ public class WeekView {
 	private int fri;
 	private int sat;
 	private int sun;
+	private int total;
 
 	private EmployeeProject employeeProject;
 
 	private Task task;
-
-	// private Project project;
-	private int total;
+	
 	private LocalDate firstOfCurrentWeek;
 
 	public WeekView() {

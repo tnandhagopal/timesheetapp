@@ -85,6 +85,8 @@ public class WeekViewService {
 		});
 
 		retList.stream().forEach(e -> {
+			
+						
 			System.out.println(e.getEmployeeProject().getProject().getName() + "," + e.getMon() + "," + e.getTus() + ","
 					+ e.getWed() + "," + e.getThu() + "," + e.getFri() + "," + e.getSat() + "," + e.getSun());
 
