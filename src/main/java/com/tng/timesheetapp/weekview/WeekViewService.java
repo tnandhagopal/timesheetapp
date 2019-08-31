@@ -66,6 +66,8 @@ public class WeekViewService {
 		System.out.println(action + " : " + firstOfCurrentWeek);
 
 		WeekViewModel weekViewModel = new WeekViewModel();
+		
+		
 
 		List<WeekView> retList = new ArrayList<WeekView>();
 
