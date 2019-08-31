@@ -1,121 +1,55 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head th:replace="/fragments/head :: head"/>
+<body class="hold-transition skin-black-light sidebar-mini">
+<div class="wrapper">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
+    <div th:replace="/fragments/header :: header">&nbsp;</div>
 
-<title>Create Project</title>
+    <div th:replace="/fragments/navigationbar :: navigationbar">&nbsp;</div>
 
-</head>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <form th:action="@{/admin/project/create}" th:object="${project}"
+                              method="post" class="needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="code">Project Code:</label> <input type="text"
+                                                                               th:field="*{code}" class="form-control"
+                                                                               id="code"
+                                                                               placeholder="Enter Project Code"
+                                                                               name="code" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-<body>
+                            <div class="form-group">
+                                <label for="name">Project Name:</label> <input type="text"
+                                                                               th:field="*{name}" class="form-control"
+                                                                               id="name"
+                                                                               placeholder="Enter Project Name"
+                                                                               name="name" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-	<div th:replace="fragments/header :: header">&nbsp;</div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-primary">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+	<div th:replace="/fragments/footer :: footer">&nbsp;</div>
 
-	<div class="container-fluid">
-		<div class="row">
+</div>
 
-			<div th:replace="fragments/navigationbar :: navigationbar">&nbsp;</div>
+<script src="/dist/js/invalidFields.js"></script>
 
-			<div class="col-10">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="header">
-							<h3>Create Project</h3>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-2"></div>
-						<div class="col-10">
-							<form th:action="@{/admin/project/create}" th:object="${project}"
-								method="post" class="needs-validation" novalidate>
-								<div class="form-group">
-									<label for="code">Project Code:</label> <input type="text"
-										th:field="*{code}" class="form-control" id="code"
-										placeholder="Enter Project Code" name="code" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-
-								</div>
-
-								<div class="form-group">
-									<label for="name">Project Name:</label> <input type="text"
-										th:field="*{name}" class="form-control" id="name"
-										placeholder="Enter Project Name" name="name" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-
-								</div>
-
-								<button type="submit" class="btn btn-primary">Submit</button>
-								<button type="reset" class="btn btn-primary">Reset</button>
-
-							</form>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script>
-			// Disable form submissions if there are invalid fields
-			(function() {
-				'use strict';
-				window
-						.addEventListener(
-								'load',
-								function() {
-									// Get the forms we want to add validation styles to
-									var forms = document
-											.getElementsByClassName('needs-validation');
-									// Loop over them and prevent submission
-									var validation = Array.prototype.filter
-											.call(
-													forms,
-													function(form) {
-														form
-																.addEventListener(
-																		'submit',
-																		function(
-																				event) {
-																			if (form
-																					.checkValidity() === false) {
-																				event
-																						.preventDefault();
-																				event
-																						.stopPropagation();
-																			}
-																			form.classList
-																					.add('was-validated');
-																		},
-																		false);
-													});
-								}, false);
-			})();
-		</script>
 </body>
 </html>

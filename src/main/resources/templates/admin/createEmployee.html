@@ -1,169 +1,132 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
-
-<title>Create Employee</title>
-
-</head>
+<head th:replace="/fragments/head :: head"/>
 
 <body>
+<div class="wrapper">
 
-	<div th:replace="fragments/header :: header">&nbsp;</div>
+    <div th:replace="/fragments/header :: header">&nbsp;</div>
 
-	<div class="container-fluid">
-		<div class="row">
+    <div th:replace="/fragments/navigationbar :: navigationbar">&nbsp;</div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
 
-			<div th:replace="fragments/navigationbar :: navigationbar">&nbsp;</div>
+        <div th:replace="/fragments/contentHeader :: contentHeader"/>
 
-			<div class="col-10">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="header">
-							<h3>Create Employee</h3>
-						</div>
-					</div>
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <form th:action="@{/admin/employee/create}"
+                              th:object="${employeeDetails}" method="post"
+                              class="needs-validation" novalidate>
 
-					<div class="row">
-						<div class="col-2"></div>
-						<div class="col-10">
-							<form th:action="@{/admin/employee/create}"
-								th:object="${employeeDetails}" method="post"
-								class="needs-validation" novalidate>
+                            <div class="form-group">
+                                <label for="userName">User Name:</label> <input type="text"
+                                                                                th:field="*{employee.userName}"
+                                                                                class="form-control"
+                                                                                id="userName"
+                                                                                placeholder="Enter User Name"
+                                                                                name="userName"
+                                                                                required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="userName">User Name:</label> <input type="text"
-										th:field="*{employee.userName}" class="form-control"
-										id="userName" placeholder="Enter User Name" name="userName"
-										required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="firstName">First Name:</label> <input type="text"
+                                                                                  th:field="*{employee.firstName}"
+                                                                                  class="form-control"
+                                                                                  id="firstName"
+                                                                                  placeholder="Enter First Name"
+                                                                                  name="firstName"
+                                                                                  required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="firstName">First Name:</label> <input type="text"
-										th:field="*{employee.firstName}" class="form-control"
-										id="firstName" placeholder="Enter First Name" name="firstName"
-										required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="secondName">Second Name:</label> <input type="text"
+                                                                                    th:field="*{employee.secondName}"
+                                                                                    class="form-control"
+                                                                                    id="secondName"
+                                                                                    placeholder="Enter Second Name"
+                                                                                    name="secondName" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="secondName">Second Name:</label> <input type="text"
-										th:field="*{employee.secondName}" class="form-control"
-										id="secondName" placeholder="Enter Second Name"
-										name="secondName" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="mailId">Mail Id:</label> <input type="text"
+                                                                            th:field="*{employee.mailId}"
+                                                                            class="form-control" id="mailId"
+                                                                            placeholder="Enter Mail Id"
+                                                                            name="mailId"
+                                                                            required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="mailId">Mail Id:</label> <input type="text"
-										th:field="*{employee.mailId}" class="form-control" id="mailId"
-										placeholder="Enter Mail Id" name="mailId" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="password">Password:</label> <input type="text"
+                                                                               th:field="*{employee.password}"
+                                                                               class="form-control"
+                                                                               id="password"
+                                                                               placeholder="Enter Password"
+                                                                               name="password"
+                                                                               required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="password">Password:</label> <input type="text"
-										th:field="*{employee.password}" class="form-control"
-										id="password" placeholder="Enter Password" name="password"
-										required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="contactNo">Contact Number:</label> <input
+                                    type="text" th:field="*{employee.contactNo}"
+                                    class="form-control" id="contactNo"
+                                    placeholder="Enter Contact Number" name="contactNo" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="contactNo">Contact Number:</label> <input
-										type="text" th:field="*{employee.contactNo}"
-										class="form-control" id="contactNo"
-										placeholder="Enter Contact Number" name="contactNo" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="dob">Contact Number:</label> <input type="date"
+                                                                                th:field="*{employee.dob}"
+                                                                                class="form-control" id="dob"
+                                                                                placeholder="Enter Date of Birth"
+                                                                                name="dob" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
 
-								<div class="form-group">
-									<label for="dob">Contact Number:</label> <input type="date"
-										th:field="*{employee.dob}" class="form-control" id="dob"
-										placeholder="Enter Date of Birth" name="dob" required>
-									<div class="valid-feedback">Valid.</div>
-									<div class="invalid-feedback">Please fill out this field.</div>
-								</div>
+                            <div class="form-group">
+                                <label for="dob">Roles:</label> <select
+                                    id="multiSelectElementsSelected"
+                                    name="multiSelectElementsSelected" multiple="multiple"
+                                    th:field="*{roles}" required>
 
-								<div class="form-group">
-									<label for="dob">Roles:</label> <select
-										id="multiSelectElementsSelected"
-										name="multiSelectElementsSelected" multiple="multiple"
-										th:field="*{roles}" required>
+                                <option th:each="role,row : *{roles}" th:value="${role.id}"
+                                        th:text="${role.name}"></option>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this
+                                    field.
+                                </div>
+                            </select>
+                            </div>
 
-										<option th:each="role,row : *{roles}" th:value="${role.id}"
-											th:text="${role.name}"></option>
-										<div class="valid-feedback">Valid.</div>
-										<div class="invalid-feedback">Please fill out this
-											field.</div>
-									</select>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-primary">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div th:replace="/fragments/footer :: footer">&nbsp;</div>
 
-								</div>
+</div>
 
-								<button type="submit" class="btn btn-primary">Submit</button>
-								<button type="reset" class="btn btn-primary">Reset</button>
+<script src="/dist/js/invalidFields.js"></script>
 
-							</form>
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script>
-		// Disable form submissions if there are invalid fields
-		(function() {
-			'use strict';
-			window.addEventListener('load',
-					function() {
-						// Get the forms we want to add validation styles to
-						var forms = document
-								.getElementsByClassName('needs-validation');
-						// Loop over them and prevent submission
-						var validation = Array.prototype.filter.call(forms,
-								function(form) {
-									form.addEventListener('submit', function(
-											event) {
-										if (form.checkValidity() === false) {
-											event.preventDefault();
-											event.stopPropagation();
-										}
-										form.classList.add('was-validated');
-									}, false);
-								});
-					}, false);
-		})();
-	</script>
 </body>
 </html>
