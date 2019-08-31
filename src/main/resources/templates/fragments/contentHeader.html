@@ -5,12 +5,12 @@
 <div>
     <!-- Content Header (Page header) -->
     <section class="content-header" th:fragment="contentHeader">
-        <h1>
-            My Timesheets
+        <h1 th:text="${title}">
+            title
         </h1>
         <ol class="breadcrumb">
             <li><a th:href="@{/home}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">My Timesheets</li>
+            <li class="active" th:text="${title}">title</li>
         </ol>
     </section>
 </div>

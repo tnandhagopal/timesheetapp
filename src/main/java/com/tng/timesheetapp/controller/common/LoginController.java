@@ -2,55 +2,54 @@ package com.tng.timesheetapp.controller.common;
 
 import java.security.Principal;
 
-import com.tng.timesheetapp.model.employee.UserPrincipal;
+import com.tng.timesheetapp.service.ModelService;
+import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.tng.timesheetapp.model.employee.Employee;
-
+@CommonsLog
 @Controller
 @PreAuthorize("hasAnyRole('USER')")
 public class LoginController {
 
-	@RequestMapping("/home")
-	@GetMapping
-	public String login(Principal principal, Model model) {
-		System.out.println("home");
-		boolean hasAdminRole = false;
-		try {
+    @Autowired
+    private ModelService modelService;
 
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @RequestMapping("/home")
+    @GetMapping
+    public String login(Principal principal, Model model) {
+        log.info("home");
+        boolean hasAdminRole = false;
+        try {
 
-			hasAdminRole = authentication.getAuthorities().stream()
-					.anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
-			if (hasAdminRole) {
-				UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-				Employee employee = ((UserPrincipal) userDetails).getUser();
-				model.addAttribute("username", employee.getFirstName() + " " + employee.getSecondName() + " ( "
-						+ employee.getUserName() + " )");
+            hasAdminRole = authentication.getAuthorities().stream()
+                    .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+            if (hasAdminRole) {
+                modelService.setGenericFields(principal, model , " Home");
 
-				return "home/adminHome";
-			} else {
-				return "redirect:/weekview/edit";
-			}
-		} catch (Exception e) {
-			return "redirect:/home";
-		}
+                return "home/adminHome";
+            } else {
+                return "redirect:/weekview/edit";
+            }
+        } catch (Exception e) {
+            return "redirect:/home";
+        }
 
-	}
+    }
 
-	@RequestMapping("/")
-	public String home(Principal principal, Model model) {
+    @RequestMapping("/")
+    public String home(Principal principal, Model model) {
 
-		return "redirect:/home";
+        return "redirect:/home";
 
-	}
+    }
 
 }

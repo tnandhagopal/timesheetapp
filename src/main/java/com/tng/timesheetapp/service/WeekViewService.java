@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import com.tng.timesheetapp.model.weekview.WeekView;
 import com.tng.timesheetapp.model.weekview.WeekViewDto;
 import com.tng.timesheetapp.model.weekview.WeekViewModel;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,167 +21,167 @@ import com.tng.timesheetapp.model.employeeproject.EmployeeProject;
 import com.tng.timesheetapp.model.employeetimesheet.EmployeeTimeSheet;
 import com.tng.timesheetapp.model.task.Task;
 
+@CommonsLog
 @Service
 public class WeekViewService {
 
-	@Autowired
-	private EmployeeTimeSheetService employeeTimeSheetService;
+    @Autowired
+    private EmployeeTimeSheetService employeeTimeSheetService;
 
-	@Autowired
-	private EmployeeProjectService employeeProjectService;
+    @Autowired
+    private EmployeeProjectService employeeProjectService;
 
-	@Autowired
-	private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
-	private LocalDate firstOfCurrentWeek = LocalDate.now().with(ChronoField.DAY_OF_WEEK, 1);
+    private LocalDate firstOfCurrentWeek = LocalDate.now().with(ChronoField.DAY_OF_WEEK, 1);
 
-	public LocalDate getFirstOfCurrentWeek() {
-		return firstOfCurrentWeek;
-	}
+    public LocalDate getFirstOfCurrentWeek() {
+        return firstOfCurrentWeek;
+    }
 
-	public List<WeekView> getAll() {
+    public List<WeekView> getAll() {
 
-		List<WeekView> retList = new ArrayList<WeekView>();
+        List<WeekView> retList = new ArrayList<WeekView>();
 
 //		projectService.getAll().stream().forEach(pro -> retList
 //				.add(setWeekView(employeeTimeSheetService.getAllEmployeeTimeSheet(), pro, firstOfCurrentWeek)));
-		return retList;
+        return retList;
 
-	}
+    }
 
-	public WeekViewModel getByEmployee(Employee employee, String action) {
+    public WeekViewModel getByEmployee(Employee employee, String action) {
 
-		System.out.println(action + " : " + firstOfCurrentWeek);
+        log.info(action + " : " + firstOfCurrentWeek);
 
-		if (action == null) {
-			firstOfCurrentWeek = LocalDate.now().with(ChronoField.DAY_OF_WEEK, 1);
-		} else if (action.equalsIgnoreCase("next")) {
-			firstOfCurrentWeek = firstOfCurrentWeek.plusWeeks(1);
-		} else if (action.equalsIgnoreCase("previous")) {
-			firstOfCurrentWeek = firstOfCurrentWeek.minusWeeks(1);
-		}
+        if (action == null) {
+            firstOfCurrentWeek = LocalDate.now().with(ChronoField.DAY_OF_WEEK, 1);
+        } else if (action.equalsIgnoreCase("next")) {
+            firstOfCurrentWeek = firstOfCurrentWeek.plusWeeks(1);
+        } else if (action.equalsIgnoreCase("previous")) {
+            firstOfCurrentWeek = firstOfCurrentWeek.minusWeeks(1);
+        }
 //		} else {
 //			firstOfCurrentWeek = LocalDate.now().with(ChronoField.DAY_OF_WEEK, 1);
 //		}
 
-		System.out.println(action + " : " + firstOfCurrentWeek);
+        log.info(action + " : " + firstOfCurrentWeek);
 
-		WeekViewModel weekViewModel = new WeekViewModel();
-		
-		
+        WeekViewModel weekViewModel = new WeekViewModel();
 
-		List<WeekView> retList = new ArrayList<WeekView>();
 
-		employeeProjectService.getEmployeeProjectByEmployee(employee).stream().forEach(employeeProject -> {
+        List<WeekView> retList = new ArrayList<WeekView>();
 
-			List<EmployeeTimeSheet> employeeTimeSheets = employeeTimeSheetService
-					.getEmployeeTimeSheetByEmpoyeeProjectAndDate(employeeProject, firstOfCurrentWeek,
-							firstOfCurrentWeek.plusDays(6));
+        employeeProjectService.getEmployeeProjectByEmployee(employee).stream().forEach(employeeProject -> {
 
-			Map<Task, List<EmployeeTimeSheet>> employeeTimeSheetsMap = employeeTimeSheets.stream()
-					.collect(Collectors.groupingBy(EmployeeTimeSheet::getTask));
+            List<EmployeeTimeSheet> employeeTimeSheets = employeeTimeSheetService
+                    .getEmployeeTimeSheetByEmpoyeeProjectAndDate(employeeProject, firstOfCurrentWeek,
+                            firstOfCurrentWeek.plusDays(6));
 
-			for (Entry<Task, List<EmployeeTimeSheet>> task : employeeTimeSheetsMap.entrySet()) {
-				retList.add(setWeekView(task.getValue(), firstOfCurrentWeek, employeeProject, task.getKey()));
-			}
+            Map<Task, List<EmployeeTimeSheet>> employeeTimeSheetsMap = employeeTimeSheets.stream()
+                    .collect(Collectors.groupingBy(EmployeeTimeSheet::getTask));
 
-		});
+            for (Entry<Task, List<EmployeeTimeSheet>> task : employeeTimeSheetsMap.entrySet()) {
+                retList.add(setWeekView(task.getValue(), firstOfCurrentWeek, employeeProject, task.getKey()));
+            }
 
-		retList.stream().forEach(e -> {
-			
-						
-			System.out.println(e.getEmployeeProject().getProject().getName() + "," + e.getMon() + "," + e.getTus() + ","
-					+ e.getWed() + "," + e.getThu() + "," + e.getFri() + "," + e.getSat() + "," + e.getSun());
+        });
 
-			weekViewModel.getWeekViewTableCols().getMon()
-					.setFoot(weekViewModel.getWeekViewTableCols().getMon().getFoot() + e.getMon());
+        retList.stream().forEach(e -> {
 
-			weekViewModel.getWeekViewTableCols().getTus()
-					.setFoot(weekViewModel.getWeekViewTableCols().getTus().getFoot() + e.getTus());
 
-			weekViewModel.getWeekViewTableCols().getWed()
-					.setFoot(weekViewModel.getWeekViewTableCols().getWed().getFoot() + e.getWed());
+            log.info(e.getEmployeeProject().getProject().getName() + "," + e.getMon() + "," + e.getTus() + ","
+                    + e.getWed() + "," + e.getThu() + "," + e.getFri() + "," + e.getSat() + "," + e.getSun());
 
-			weekViewModel.getWeekViewTableCols().getThu()
-					.setFoot(weekViewModel.getWeekViewTableCols().getThu().getFoot() + e.getThu());
+            weekViewModel.getWeekViewTableCols().getMon()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getMon().getFoot() + e.getMon());
 
-			weekViewModel.getWeekViewTableCols().getFri()
-					.setFoot(weekViewModel.getWeekViewTableCols().getFri().getFoot() + e.getFri());
+            weekViewModel.getWeekViewTableCols().getTus()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getTus().getFoot() + e.getTus());
 
-			weekViewModel.getWeekViewTableCols().getSat()
-					.setFoot(weekViewModel.getWeekViewTableCols().getSat().getFoot() + e.getSat());
+            weekViewModel.getWeekViewTableCols().getWed()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getWed().getFoot() + e.getWed());
 
-			weekViewModel.getWeekViewTableCols().getSun()
-					.setFoot(weekViewModel.getWeekViewTableCols().getSun().getFoot() + e.getSun());
+            weekViewModel.getWeekViewTableCols().getThu()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getThu().getFoot() + e.getThu());
 
-			weekViewModel.getWeekViewTableCols().getTotal()
-					.setFoot(weekViewModel.getWeekViewTableCols().getTotal().getFoot() + e.getTotal());
+            weekViewModel.getWeekViewTableCols().getFri()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getFri().getFoot() + e.getFri());
 
-		});
+            weekViewModel.getWeekViewTableCols().getSat()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getSat().getFoot() + e.getSat());
 
-		weekViewModel.getWeekViewTableCols().getMon()
-				.setHead(firstOfCurrentWeek.format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getTus()
-				.setHead(firstOfCurrentWeek.plusDays(1).format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getWed()
-				.setHead(firstOfCurrentWeek.plusDays(2).format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getThu()
-				.setHead(firstOfCurrentWeek.plusDays(3).format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getFri()
-				.setHead(firstOfCurrentWeek.plusDays(4).format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getSat()
-				.setHead(firstOfCurrentWeek.plusDays(5).format(DateTimeFormatter.ofPattern("EEE dd")));
-		weekViewModel.getWeekViewTableCols().getSun()
-				.setHead(firstOfCurrentWeek.plusDays(6).format(DateTimeFormatter.ofPattern("EEE dd")));
+            weekViewModel.getWeekViewTableCols().getSun()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getSun().getFoot() + e.getSun());
 
-		weekViewModel.setCurrentWeek("From " + firstOfCurrentWeek.format(DateTimeFormatter.ofPattern("dd MMM YYYY"))
-				+ " to " + firstOfCurrentWeek.plusDays(6).format(DateTimeFormatter.ofPattern("dd MMM YYYY")));
+            weekViewModel.getWeekViewTableCols().getTotal()
+                    .setFoot(weekViewModel.getWeekViewTableCols().getTotal().getFoot() + e.getTotal());
 
-		weekViewModel.setWeekviewList(retList);
+        });
 
-		return weekViewModel;
+        weekViewModel.getWeekViewTableCols().getMon()
+                .setHead(firstOfCurrentWeek.format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getTus()
+                .setHead(firstOfCurrentWeek.plusDays(1).format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getWed()
+                .setHead(firstOfCurrentWeek.plusDays(2).format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getThu()
+                .setHead(firstOfCurrentWeek.plusDays(3).format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getFri()
+                .setHead(firstOfCurrentWeek.plusDays(4).format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getSat()
+                .setHead(firstOfCurrentWeek.plusDays(5).format(DateTimeFormatter.ofPattern("EEE dd")));
+        weekViewModel.getWeekViewTableCols().getSun()
+                .setHead(firstOfCurrentWeek.plusDays(6).format(DateTimeFormatter.ofPattern("EEE dd")));
 
-	}
+        weekViewModel.setCurrentWeek("From " + firstOfCurrentWeek.format(DateTimeFormatter.ofPattern("dd MMM YYYY"))
+                + " to " + firstOfCurrentWeek.plusDays(6).format(DateTimeFormatter.ofPattern("dd MMM YYYY")));
 
-	public void save(Employee employee, WeekViewDto weekviewdto) {
+        weekViewModel.setWeekviewList(retList);
 
-		System.out.println("save : firstOfCurrentWeek : " + firstOfCurrentWeek);
+        return weekViewModel;
 
-		if (weekviewdto == null)
-			return;
+    }
 
-		System.out.println("save : form.getWeekviews().size() = " + weekviewdto.getWeekviews().size());
+    public void save(Employee employee, WeekViewDto weekviewdto) {
 
-		weekviewdto.getWeekviews().stream().forEach(weekview -> {
-			System.out.println("save : weekview.employeeProject; " + weekview.getEmployeeProject().getId());
+        log.info("save : firstOfCurrentWeek : " + firstOfCurrentWeek);
 
-			weekview.setEmployeeProject(
-					employeeProjectService.getEmployeeProjectById(weekview.getEmployeeProject().getId()));
+        if (weekviewdto == null)
+            return;
 
-			weekview.setTask(taskService.getById(weekview.getTask().getId()).get());
+        log.info("save : form.getWeekviews().size() = " + weekviewdto.getWeekviews().size());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek, weekview.getMon());
+        weekviewdto.getWeekviews().stream().forEach(weekview -> {
+            log.info("save : weekview.employeeProject; " + weekview.getEmployeeProject().getId());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(1), weekview.getTus());
+            weekview.setEmployeeProject(
+                    employeeProjectService.getEmployeeProjectById(weekview.getEmployeeProject().getId()));
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(2), weekview.getWed());
+            weekview.setTask(taskService.getById(weekview.getTask().getId()).get());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(3), weekview.getThu());
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek, weekview.getMon());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(4), weekview.getFri());
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(1), weekview.getTus());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(5), weekview.getSat());
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(2), weekview.getWed());
 
-			employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
-					firstOfCurrentWeek.plusDays(6), weekview.getSun());
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(3), weekview.getThu());
 
-		});
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(4), weekview.getFri());
+
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(5), weekview.getSat());
+
+            employeeTimeSheetService.setEmployeeTimeSheet(weekview.getEmployeeProject(), weekview.getTask(),
+                    firstOfCurrentWeek.plusDays(6), weekview.getSun());
+
+        });
 
 //		List<WeekView> getList = getByEmployee(employee, null);
 //
@@ -231,7 +232,7 @@ public class WeekViewService {
 //			System.out.println(e.getFri());
 //		});
 
-	}
+    }
 
 //	private void update(Employee employee, Project project, DayOfWeek dayOfWeek, int time) {
 //
@@ -240,50 +241,50 @@ public class WeekViewService {
 //				employeeProjectService.getEmployeeProjectByEmployeeAndProject(employee, project), date, time);
 //	}
 
-	private WeekView setWeekView(List<EmployeeTimeSheet> employeeTimeSheets, LocalDate date,
-			EmployeeProject employeeProject, Task task) {
+    private WeekView setWeekView(List<EmployeeTimeSheet> employeeTimeSheets, LocalDate date,
+                                 EmployeeProject employeeProject, Task task) {
 
-		WeekView weekview = new WeekView();
+        WeekView weekview = new WeekView();
 
-		employeeTimeSheets.stream().forEach(employeeTimeSheet -> {
+        employeeTimeSheets.stream().forEach(employeeTimeSheet -> {
 
-			switch (employeeTimeSheet.getDate().getDayOfWeek()) {
+            switch (employeeTimeSheet.getDate().getDayOfWeek()) {
 
-			case SUNDAY:
-				weekview.setSun(employeeTimeSheet.getTime());
-				break;
-			case MONDAY:
-				weekview.setMon(employeeTimeSheet.getTime());
-				break;
-			case TUESDAY:
-				weekview.setTus(employeeTimeSheet.getTime());
-				break;
-			case WEDNESDAY:
-				weekview.setWed(employeeTimeSheet.getTime());
-				break;
-			case THURSDAY:
-				weekview.setThu(employeeTimeSheet.getTime());
-				break;
-			case FRIDAY:
-				weekview.setFri(employeeTimeSheet.getTime());
-				break;
-			case SATURDAY:
-				weekview.setSat(employeeTimeSheet.getTime());
-				break;
+                case SUNDAY:
+                    weekview.setSun(employeeTimeSheet.getTime());
+                    break;
+                case MONDAY:
+                    weekview.setMon(employeeTimeSheet.getTime());
+                    break;
+                case TUESDAY:
+                    weekview.setTus(employeeTimeSheet.getTime());
+                    break;
+                case WEDNESDAY:
+                    weekview.setWed(employeeTimeSheet.getTime());
+                    break;
+                case THURSDAY:
+                    weekview.setThu(employeeTimeSheet.getTime());
+                    break;
+                case FRIDAY:
+                    weekview.setFri(employeeTimeSheet.getTime());
+                    break;
+                case SATURDAY:
+                    weekview.setSat(employeeTimeSheet.getTime());
+                    break;
 
-			default:
-				break;
+                default:
+                    break;
 
-			}
+            }
 
-		});
+        });
 
-		weekview.setEmployeeProject(employeeProject);
+        weekview.setEmployeeProject(employeeProject);
 
-		weekview.setFirstOfCurrentWeek(date);
+        weekview.setFirstOfCurrentWeek(date);
 
-		weekview.setTask(task);
-		return weekview;
-	}
+        weekview.setTask(task);
+        return weekview;
+    }
 
 }

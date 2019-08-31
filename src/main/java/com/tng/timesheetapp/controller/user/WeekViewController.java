@@ -4,11 +4,12 @@ import java.security.Principal;
 
 import com.tng.timesheetapp.model.weekview.WeekViewDto;
 import com.tng.timesheetapp.model.weekview.WeekViewModel;
+import com.tng.timesheetapp.service.ModelService;
+import com.tng.timesheetapp.service.MyUserDetailsService;
 import com.tng.timesheetapp.service.WeekViewService;
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,72 +18,64 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tng.timesheetapp.model.employee.Employee;
-import com.tng.timesheetapp.model.employee.UserPrincipal;
-
 @Controller
 @PreAuthorize("hasAnyRole('USER')")
 @RequestMapping("/weekview")
+@CommonsLog
 public class WeekViewController {
 
-	@Autowired
-	private WeekViewService weekViewService;
+    @Autowired
+    private WeekViewService weekViewService;
 
-	@PostMapping(value = "/save", params = "action=Save")
-	public String save(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
-		System.out.println("save called");
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+    @Autowired
+    private ModelService modelService;
 
-		Employee employee = ((UserPrincipal) userDetails).getUser();
+    @Autowired
+	private MyUserDetailsService userDetailsService;
 
-		weekViewService.save(employee, form);
+    @PostMapping(value = "/save", params = "action=Save")
+    public String save(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
+        log.info("save called");
 
-		return "redirect:/weekview/edit?action=same";
+        weekViewService.save(userDetailsService.findUserByPrincipal(principal), form);
 
-	}
+        return "redirect:/weekview/edit?action=same";
 
-	@PostMapping(value = "/save", params = "action=SubmitForApproval")
-	public String submitForApproval(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
-		System.out.println("submit called");
+    }
 
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+    @PostMapping(value = "/save", params = "action=SubmitForApproval")
+    public String submitForApproval(@ModelAttribute WeekViewDto form, Principal principal, Model model) {
+       log.info("submit called");
 
-		Employee employee = ((UserPrincipal) userDetails).getUser();
+        weekViewService.save(userDetailsService.findUserByPrincipal(principal), form);
 
-		weekViewService.save(employee, form);
+        return "redirect:/weekview/edit?action=same";
 
-		return "redirect:/weekview/edit?action=same";
+    }
 
-	}
+    @GetMapping("/edit{action}")
+    public String edit(@RequestParam(value = "action", required = false) String action, Principal principal,
+                       Model model) {
 
-	@GetMapping("/edit{action}")
-	public String edit(@RequestParam(value = "action", required = false) String action, Principal principal,
-			Model model) {
+        modelService.setGenericFields(principal, model,"My Time Sheet");
 
-		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
+        WeekViewModel weekViewModel = weekViewService.getByEmployee(userDetailsService.findUserByPrincipal(principal), action);
 
-		Employee employee = ((UserPrincipal) userDetails).getUser();
+        model.addAttribute("weekViewModel", weekViewModel);
 
-		WeekViewModel weekViewModel = weekViewService.getByEmployee(employee, action);
+        model.addAttribute("form", new WeekViewDto(weekViewModel.getWeekviewList()));
 
-		model.addAttribute("weekViewModel", weekViewModel);
+        if (weekViewModel.getIsEditable()) {
+            return "user/weekViewEdit";
+        } else {
+            return "user/weekView";
+        }
 
-		model.addAttribute("username",
-				employee.getFirstName() + " " + employee.getSecondName() + " ( " + employee.getUserName() + " )");
+    }
 
-		model.addAttribute("form", new WeekViewDto(weekViewModel.getWeekviewList()));
-
-		if (weekViewModel.getIsEditable()) {
-			return "user/weekViewEdit";
-		} else {
-			return "user/weekView";
-		}
-
-	}
-
-	@GetMapping
-	public String get(@RequestParam(value = "action", required = false) String action, Principal principal,
-			Model model) {
+    @GetMapping
+    public String get(@RequestParam(value = "action", required = false) String action, Principal principal,
+                      Model model) {
 //
 //		UserDetails userDetails = (UserDetails) ((Authentication) principal).getPrincipal();
 //
@@ -109,8 +102,8 @@ public class WeekViewController {
 //		model.addAttribute("username",
 //				employee.getFirstName() + " " + employee.getSecondName() + " ( " + employee.getUserName() + " )");
 
-		return "redirect:/weekview/edit";
+        return "redirect:/weekview/edit";
 
-	}
+    }
 
 }
