@@ -121,7 +121,6 @@ create table employee_time_sheet(
 	ets_task_id bigint(20) not null,
 	ets_date date not null,
 	ets_time int,
-	ets_approved boolean,
 	ets_created_by varchar(10),
 	ets_created_date datetime,
 	ets_updated_by varchar(10),
@@ -129,27 +128,27 @@ create table employee_time_sheet(
 	constraint ets_pk primary key (ets_id),
 	constraint ets_uk unique (ets_ep_id, ets_task_id, ets_date ),
 	constraint ets_ep_fk foreign key (ets_ep_id) references employee_project(ep_id),
-	cons		traint ets_task_fk foreign key (ets_task_id) references task(task_id)	
+	constraint ets_task_fk foreign key (ets_task_id) references task(task_id)
 
 );
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), CURRENT_TIMESTAMP(),8, false, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), CURRENT_TIMESTAMP(),8, false,'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), CURRENT_TIMESTAMP(),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-28'),8, false, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-28'),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-27'),8, false,'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-27'),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-15'),8, true, 'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Development'), DATE('2019-08-15'),8,  'ADMIN', CURRENT_TIMESTAMP());
 
 
-insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_approved, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-14'),8, true,'ADMIN', CURRENT_TIMESTAMP());
+insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_created_by, ets_created_date) values((select ep_id from employee, employee_project, project where emp_user_name='51314542' and ep_emp_id = emp_id and pro_id = ep_pro_id and pro_code ='ABC1001'), (select task_id from task where task_name='Testing'), DATE('2019-08-14'),8, 'ADMIN', CURRENT_TIMESTAMP());
 
 
 

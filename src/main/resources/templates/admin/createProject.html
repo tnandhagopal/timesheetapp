@@ -10,6 +10,9 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
+        <div th:replace="/fragments/contentHeader :: contentHeader"/>
+
         <!-- Main content -->
         <section class="content container-fluid">
             <div class="row">
@@ -45,7 +48,7 @@
             </div>
         </section>
     </div>
-	<div th:replace="/fragments/footer :: footer">&nbsp;</div>
+    <div th:replace="/fragments/footer :: footer">&nbsp;</div>
 
 </div>
 

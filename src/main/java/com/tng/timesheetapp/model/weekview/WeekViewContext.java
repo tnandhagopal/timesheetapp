@@ -1,5 +1,8 @@
 package com.tng.timesheetapp.model.weekview;
 
+import lombok.Data;
+
+@Data
 public class WeekViewContext {
 
 	private String head;
@@ -10,20 +13,21 @@ public class WeekViewContext {
 		this.foot = 0;
 	}
 
-	public String getHead() {
-		return head;
-	}
-
-	public void setHead(String head) {
-		this.head = head;
-	}
-
-	public Integer getFoot() {
-		return foot;
-	}
-
-	public void setFoot(Integer foot) {
-		this.foot = foot;
-	}
+//
+//	public String getHead() {
+//		return head;
+//	}
+//
+//	public void setHead(String head) {
+//		this.head = head;
+//	}
+//
+//	public Integer getFoot() {
+//		return foot;
+//	}
+//
+//	public void setFoot(Integer foot) {
+//		this.foot = foot;
+//	}
 
 }
