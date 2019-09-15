@@ -1,10 +1,10 @@
-drop database timesheet;
+--drop database timesheet;
  
-create database timesheet;
+--create database timesheet;
 
-use timesheet;
+--use timesheet;
 
-#drop Table employee;
+--drop Table employee;
 
 create table employee
 (
@@ -33,8 +33,7 @@ insert into employee (emp_user_name, emp_first_name, emp_second_name, emp_passwo
 
 select * from employee;
 
-
-#drop table project;
+--drop table project;
 
 create table project(
 	pro_id bigint(20) not null auto_increment,
@@ -61,8 +60,7 @@ insert into project(pro_code, pro_name, pro_created_by, pro_created_date) values
 insert into project(pro_code, pro_name, pro_created_by, pro_created_date) values('RTS1001', 'Perl Testing', 'ADMIN', CURRENT_TIMESTAMP( ));
 
 
-
-#drop table employee_project;
+--drop table employee_project;
 
 create table employee_project(
 	ep_id bigint(20) not null auto_increment,
@@ -113,7 +111,7 @@ insert into task( task_name, task_created_by, task_created_date) values( 'Suppor
 insert into task( task_name, task_created_by, task_created_date) values('Training', 'ADMIN', CURRENT_TIMESTAMP( ));
 
 
-drop table employee_time_sheet;
+--drop table employee_time_sheet;
 
 create table employee_time_sheet(
 	ets_id bigint(20) not null auto_increment,
@@ -152,7 +150,7 @@ insert into employee_time_sheet(ets_ep_id, ets_task_id, ets_date, ets_time, ets_
 
 
 
-#drop table employee_leave;
+--drop table employee_leave;
 
 create table employee_leave(
 	el_id bigint(20) not null auto_increment,
@@ -168,7 +166,7 @@ create table employee_leave(
 	constraint el_emp_fk foreign key (el_emp_id) references employee(emp_id)
 );
 
-#drop table role;
+--drop table role;
 
 create table role(
 	role_id bigint(20) not null auto_increment,
@@ -185,7 +183,7 @@ insert into role (role_name, role_created_by, role_created_date) values('USER','
 
 insert into role (role_name, role_created_by, role_created_date) values('ADMIN','ADMIN',CURRENT_TIMESTAMP());
 
-#drop table employee_role;
+--drop table employee_role;
 
 create table employee_role(
 	er_id bigint(20) not null auto_increment,
@@ -208,7 +206,7 @@ insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date
 insert into employee_role (er_emp_id, er_role_id, er_created_by, er_created_date) values((select emp_id from employee where emp_user_name='51314543'), (select role_id from role where role_name='USER'),'ADMIN',CURRENT_TIMESTAMP());
 
 
-#drop table approval_status;
+--drop table approval_status;
 
 create table approval_status(
 	as_id bigint(20) not null auto_increment,
@@ -227,7 +225,7 @@ insert into approval_status (as_name, as_created_by, as_created_date) values('RE
 
 insert into approval_status (as_name, as_created_by, as_created_date) values('PENDING','ADMIN',CURRENT_TIMESTAMP());
 
-#drop table employee_time_sheet_approval;
+--drop table employee_time_sheet_approval;
 
 create table employee_time_sheet_approval(
 	etsa_id bigint(20) not null auto_increment,
@@ -243,13 +241,6 @@ create table employee_time_sheet_approval(
 	constraint etsa_emp_fk foreign key (etsa_emp_id) references employee(emp_id),
 	constraint etsa_as_fk foreign key (etsa_as_id) references approval_status(as_id)
 );
-
-#spring.datasource.url = jdbc:mysql://aagpv7jjakutzi.co4sfgsv7sfr.us-east-2.rds.amazonaws.com:3306/timesheet?useSSL=false&serverTimezone=Asia/Singapore
-#spring.datasource.username = root
-#spring.datasource.password = 6TnG6qcDtJK4Wjb
-
-#spring.datasource.username = admin
-#spring.datasource.password = admin@12345
 
 
 CREATE USER 'admin'@'timesheet' IDENTIFIED BY 'admin@12345';

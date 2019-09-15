@@ -2,25 +2,18 @@ package com.tng.timesheetapp.model.employeerole;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.tng.timesheetapp.model.employee.Employee;
 import com.tng.timesheetapp.model.role.Role;
 
 @Entity
-@Table(name = "employee_role")
+@Table(name = "employee_role", schema = "ts")
+@SequenceGenerator(name = "er_seq", sequenceName = "ts.er_seq")
 public class EmployeeRole {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "er_seq")
 	@Column(name = "er_id")
 	private int id;
 

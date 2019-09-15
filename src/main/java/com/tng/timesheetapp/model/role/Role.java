@@ -2,20 +2,15 @@ package com.tng.timesheetapp.model.role;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "role", schema = "ts")
+@SequenceGenerator(name = "role_seq",sequenceName="ts.role_seq")
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
 	@Column(name = "role_id")
 	private int id;
 

@@ -2,21 +2,15 @@ package com.tng.timesheetapp.model.task;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "task")
-
+@Table(name = "task", schema = "ts")
+@SequenceGenerator(name = "task_seq",sequenceName="ts.task_seq")
 public class Task {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
 	@Column(name = "task_id")
 	private int id;
 

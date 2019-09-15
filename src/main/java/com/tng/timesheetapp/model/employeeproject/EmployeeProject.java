@@ -3,25 +3,18 @@ package com.tng.timesheetapp.model.employeeproject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.tng.timesheetapp.model.employee.Employee;
 import com.tng.timesheetapp.model.project.Project;
 
 @Entity
-@Table(name = "employee_project")
+@Table(name = "employee_project", schema = "ts")
+@SequenceGenerator(name = "ep_seq", sequenceName = "ts.ep_seq")
 public class EmployeeProject {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ep_seq")
 	@Column(name = "ep_id")
 	private int id;
 

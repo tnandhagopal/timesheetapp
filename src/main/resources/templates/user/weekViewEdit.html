@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head :: head"/>
+<head th:replace="fragments/head :: head"/>
 <body class="hold-transition skin-black-light sidebar-mini">
 <div class="wrapper">
 
-    <div th:replace="/fragments/header :: header">&nbsp;</div>
+    <div th:replace="fragments/header :: header">&nbsp;</div>
 
-    <div th:replace="/fragments/navigationbar :: navigationbar">&nbsp;</div>
+    <div th:replace="fragments/navigationbar :: navigationbar">&nbsp;</div>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <div th:replace="/fragments/contentHeader :: contentHeader"/>
+        <div th:replace="fragments/contentHeader :: contentHeader"/>
 
         <!-- Main content -->
         <section class="content container-fluid">
@@ -34,7 +34,7 @@
                                 <!-- /.box-header -->
 
                                 <div class="box-body table-mobile">
-                                        <table id="TimeSheetWeekView"
+                                    <table id="TimeSheetWeekView"
                                            class="table table-striped table-hover">
                                         <thead class="thead-dark">
                                         <tr>
@@ -67,7 +67,7 @@
                                         </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody id="bodyTimeSheetWeekView">
                                         <tr th:each="weekview, itemStat: ${form.weekviews}"
                                             th:style="${itemStat.odd} ? 'color: gray' : 'color: blue;'">
                                             <td><span
@@ -166,6 +166,7 @@
                             <!-- /.box -->
                         </fieldset>
                     </form>
+                    <input type="submit" onclick="myFunction()" th:value="AddRow"/>
                 </div>
             </div>
             <!-- /.box -->
@@ -174,9 +175,40 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <div th:replace="/fragments/footer :: footer">&nbsp;</div>
+    <div th:replace="fragments/footer :: footer">&nbsp;</div>
 
 </div>
 
+<script th:inline="javascript">
+/*<![CDATA[*/
+function myFunction() {
+  var table = document.getElementById("bodyTimeSheetWeekView");
+  var row = table.insertRow();
+  var project = row.insertCell(0);
+  var task = row.insertCell(1);
+  var mon = row.insertCell(2);
+  var tus = row.insertCell(3);
+  var wed = row.insertCell(4);
+  var thu = row.insertCell(5);
+  var fri = row.insertCell(6);
+  var sat = row.insertCell(7);
+  var sun = row.insertCell(8);
+  var total = row.insertCell(9);
+
+  project.innerHTML = /*[[${username}]]*/;
+  task.innerHTML = "NEW CELL2";
+  mon.innerHTML = "0";
+  tus.innerHTML = "0";
+  wed.innerHTML = "0";
+  thu.innerHTML = "0";
+  fri.innerHTML = "0";
+  sat.innerHTML = "0";
+  sun.innerHTML = "0";
+  total.innerHTML = "0";
+
+}
+/*]]>*/
+
+</script>
 </body>
 </html>

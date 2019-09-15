@@ -4,24 +4,17 @@ import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.tng.timesheetapp.model.employee.Employee;
 
 @Entity
-@Table(name = "employee_leave")
+@Table(name = "employee_leave", schema = "ts")
+@SequenceGenerator(name = "el_seq",sequenceName="ts.el_seq")
 public class EmployeeLeave {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "el_seq")
 	@Column(name = "el_id")
 	private int id;
 
